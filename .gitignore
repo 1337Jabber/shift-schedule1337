@@ -1,0 +1,15 @@
+# deps / build
+node_modules/
+
+# vercel
+.vercel/
+
+# env
+.env
+.env.*
+!.env.example
+
+# local state (regenerated on boot; on Vercel persisted in Postgres)
+data.json
+users.json
+*.broken-*.json

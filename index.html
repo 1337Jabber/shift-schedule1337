@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shift Schedule</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --border: #334155;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .controls input[type="week"],
+        .controls select,
+        .controls button {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .controls button {
+            background: var(--primary);
+            border: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .controls button:hover { background: var(--primary-dark); }
+
+        .week-label {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .btn:hover { border-color: var(--primary); color: #c7d2fe; }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+            font-weight: 600;
+        }
+        .btn-primary:hover { background: var(--primary-dark); color: white; }
+
+        .btn-danger { color: #fca5a5; }
+        .btn-danger:hover { border-color: #ef4444; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: #263449;
+            color: #c7d2fe;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        thead th:first-child { border-radius: 12px 0 0 0; }
+        thead th:last-child { border-radius: 0 12px 0 0; }
+
+        td.worker {
+            text-align: left;
+            font-weight: 600;
+            color: #c7d2fe;
+        }
+
+        td.worker span.id-badge {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            font-size: 0.75rem;
+            margin-right: 0.6rem;
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .shift-0 { background: #1e3a5f; color: #93c5fd; }
+        .shift-1 { background: #3f3c11; color: #fde047; }
+        .shift-2 { background: #6b1d1d; color: #fca5a5; }
+        .shift-3 { background: #14532d; color: #86efac; }
+        .off    { background: #334155; color: #94a3b8; }
+
+        .legend {
+            display: flex;
+            gap: 1.25rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .legend-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--muted);
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px dashed var(--border);
+        }
+
+        .date-cell {
+            font-size: 0.75rem;
+            color: var(--muted);
+            display: block;
+            font-weight: 400;
+        }
+
+        .shift-time {
+            font-size: 0.7rem;
+            color: var(--muted);
+            display: block;
+            font-weight: 400;
+            margin-top: 0.15rem;
+        }
+
+        input[type="text"].worker-name {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 600;
+            width: 100%;
+            outline: none;
+        }
+
+        input[type="text"].worker-name:focus { border-bottom: 1px solid var(--primary); }
+
+        @media (max-width: 768px) {
+            body { padding: 1rem; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 0.5rem; }
+            .badge { padding: 0.25rem 0.5rem; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Shift Schedule</h1>
+            <div class="controls">
+                <input type="week" id="weekPicker">
+                <select id="templateSelect">
+                    <option value="rotation">Auto Rotation</option>
+                    <option value="manual">Manual Fill</option>
+                </select>
+                <button id="prevWeekBtn">&#8592;</button>
+                <button id="nextWeekBtn">&#8594;</button>
+            </div>
+        </header>
+
+        <div class="week-label" id="weekRangeLabel"></div>
+
+        <div class="toolbar">
+            <button class="btn btn-danger" id="clearBtn">Clear All</button>
+            <button class="btn btn-primary" id="saveBtn">Save Schedule</button>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item"><span class="legend-swatch shift-0"></span> Morning (06:00 - 14:00)</div>
+            <div class="legend-item"><span class="legend-swatch shift-1"></span> Day (14:00 - 22:00)</div>
+            <div class="legend-item"><span class="legend-swatch shift-2"></span> Night (22:00 - 06:00)</div>
+            <div class="legend-item"><span class="legend-swatch shift-3"></span> Weekend/Relief (10:00 - 18:00)</div>
+            <div class="legend-item"><span class="legend-swatch off"></span> Off</div>
+        </div>
+
+        <div id="tableContainer"></div>
+        <div id="summaryContainer"></div>
+    </div>
+
+    <script>
+        const WORKERS = 10;
+        const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+        const DAYS_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        const SHIFTS = [
+            { id: 0, name: 'Morning', time: '06-14' },
+            { id: 1, name: 'Day', time: '14-22' },
+            { id: 2, name: 'Night', time: '22-06' },
+            { id: 3, name: 'Relief', time: '10-18' }
+        ];
+
+        const STORAGE_KEY = 'shiftSchedule';
+        const workerNames = Array.from({ length: WORKERS }, (_, i) => `Worker ${i + 1}`);
+
+        // Google Sheets-style naming for workers
+        function makeWorkerNames() {
+            // Allow custom names to be saved
+            const saved = localStorage.getItem('shiftWorkerNames');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length === WORKERS) {
+                        return parsed;
+                    }
+                } catch (e) {}
+            }
+            return workerNames;
+        }
+
+        // 4-day rotation pattern
+        function getRotation(workerId) {
+            const pattern = [0, 1, 2, 3, -1, -1, -1]; // work 4, rest 3
+            const offset = workerId % 7;
+            return (day) => pattern[(day + offset) % 7];
+        }
+
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+            return new Date(d.setDate(diff));
+        }
+
+        function formatDate(date) {
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            return `${mm}/${dd}`;
+        }
+
+        let currentWeekStart = getWeekStart(new Date());
+        let currentTemplate = 'rotation';
+        let schedule = {}; // key: workerId_weekStart_index
+
+        function loadSchedule() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                try {
+                    schedule = JSON.parse(saved);
+                } catch (e) {
+                    schedule = {};
+                }
+            }
+        }
+
+        function saveSchedule() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(schedule));
+        }
+
+        function shiftLabel(shiftId) {
+            if (shiftId === -1) return { cls: 'off', text: 'Off' };
+            const s = SHIFTS.find(x => x.id === shiftId);
+            if (!s) return { cls: 'off', text: '-' };
+            return { cls: `shift-${s.id}`, text: s.name };
+        }
+
+        function getShiftFor(workerId, dayIdx, weekKey) {
+            if (currentTemplate === 'rotation') {
+                return getRotation(workerId)(dayIdx);
+            }
+            const key = `${workerId}_${weekKey}_${dayIdx}`;
+            return schedule[key] !== undefined ? schedule[key] : -1;
+        }
+
+        function setCustomShift(workerId, dayIdx, weekKey, value) {
+            const key = `${workerId}_${weekKey}_${dayIdx}`;
+            schedule[key] = value;
+            saveSchedule();
+        }
+
+        function render() {
+            const container = document.getElementById('tableContainer');
+            const weekKey = currentWeekStart.toISOString().split('T')[0];
+
+            // Date cells
+            const dates = [];
+            for (let i = 0; i < 7; i++) {
+                const d = new Date(currentWeekStart);
+                d.setDate(currentWeekStart.getDate() + i);
+                dates.push(d);
+            }
+
+            const first = dates[0];
+            const last = dates[6];
+            document.getElementById('weekRangeLabel').textContent =
+                `${first.toLocaleDateString()} - ${last.toLocaleDateString()}`;
+
+            let html = '<table><thead><tr><th>Worker</th>';
+            DAYS_SHORT.forEach((d, i) => {
+                html += `<th>${d}<span class="date-cell">${formatDate(dates[i])}</span></th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            const names = getWorkerNames();
+            for (let w = 0; w < WORKERS; w++) {
+                html += `<tr><td class="worker"><span class="id-badge">${w + 1}</span><input type="text" class="worker-name" value="${names[w]}" data-worker="${w}"></td>`;
+                for (let d = 0; d < 7; d++) {
+                    const shiftId = getShiftFor(w, d, weekKey);
+                    const { cls, text } = shiftLabel(shiftId);
+                    html += `<td><span class="badge ${cls} shift-cell" data-worker="${w}" data-day="${d}" data-shift="${shiftId}">${text}</span></td>`;
+                }
+                html += '</tr>';
+            }
+            html += '</tbody></table>';
+
+            container.innerHTML = html;
+
+            // Attach rotate-click handlers
+            document.querySelectorAll('.shift-cell').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const workerId = parseInt(cell.dataset.worker);
+                    const day = parseInt(cell.dataset.day);
+                    const current = parseInt(cell.dataset.shift);
+                    let next = current + 1 <= 3 ? current + 1 : -1;
+                    setCustomShift(workerId, day, weekKey, next);
+                    render();
+                });
+            });
+
+            // Attach name editing
+            document.querySelectorAll('.worker-name').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const w = parseInt(e.target.dataset.worker);
+                    const names = getWorkerNames();
+                    names[w] = e.target.value.trim() || names[w];
+                    localStorage.setItem('shiftWorkerNames', JSON.stringify(names));
+                });
+            });
+
+            renderSummary(dates);
+        }
+
+        function getWorkerNames() {
+            const saved = localStorage.getItem('shiftWorkerNames');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length === WORKERS) return parsed;
+                } catch (e) {}
+            }
+            return workerNames.map((n) => n);
+        }
+
+        function renderSummary(dates) {
+            const container = document.getElementById('summaryContainer');
+            const weekKey = currentWeekStart.toISOString().split('T')[0];
+
+            let html = '<div class="legend" style="margin-top:1.5rem;">';
+            html += '<div class="legend-item" style="color:#c7d2fe;font-weight:600;">Week Summary</div>';
+
+            const counts = { 0: 0, 1: 0, 2: 0, 3: 0, '-1': 0 };
+            for (let w = 0; w < WORKERS; w++) {
+                for (let d = 0; d < 7; d++) {
+                    const key = getShiftFor(w, d, weekKey);
+                    counts[key] = (counts[key] || 0) + 1;
+                }
+            }
+
+            SHIFTS.forEach(s => {
+                html += `<span class="legend-item"><span class="legend-swatch shift-${s.id}"></span> ${s.name}: ${counts[s.id] || 0}</span>`;
+            });
+            html += `<span class="legend-item"><span class="legend-swatch off"></span> Off: ${counts['-1'] || 0}</span>`;
+            html += '</div>';
+
+            container.innerHTML = html;
+        }
+
+        function initWeekPicker() {
+            const picker = document.getElementById('weekPicker');
+            const iso = currentWeekStart.getFullYear() + '-W' + String(Math.ceil(((currentWeekStart - new Date(currentWeekStart.getFullYear(), 0, 1)) / 86400000 + 1) / 7)).padStart(2, '0');
+            picker.value = iso;
+
+            picker.addEventListener('change', () => {
+                if (!picker.value) return;
+                const [year, week] = picker.value.split('-W');
+                const jan1 = new Date(year, 0, 1);
+                const dayOffset = (jan1.getDay() + 6) % 7;
+                const target = new Date(jan1);
+                target.setDate(jan1.getDate() + ((parseInt(week) - 1) * 7) - dayOffset + (dayOffset > 0 ? 0 : 7));
+                currentWeekStart = getWeekStart(target);
+                render();
+            });
+        }
+
+        function handleNavigation() {
+            document.getElementById('prevWeekBtn').addEventListener('click', () => {
+                currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+                render();
+            });
+            document.getElementById('nextWeekBtn').addEventListener('click', () => {
+                currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+                render();
+            });
+        }
+
+        function initTemplateSelect() {
+            const select = document.getElementById('templateSelect');
+            select.value = currentTemplate;
+            select.addEventListener('change', () => {
+                currentTemplate = select.value;
+                if (currentTemplate === 'manual') {
+                    // Prefill with rotation pattern so users can tweak
+                    const weekKey = currentWeekStart.toISOString().split('T')[0];
+                    for (let w = 0; w < WORKERS; w++) {
+                        for (let d = 0; d < 7; d++) {
+                            const key = `${w}_${weekKey}_${d}`;
+                            if (schedule[key] === undefined) {
+                                schedule[key] = getRotation(w)(d);
+                            }
+                        }
+                    }
+                }
+                render();
+            });
+        }
+
+        function handleClear() {
+            document.getElementById('clearBtn').addEventListener('click', () => {
+                if (confirm('Clear all schedule data for all weeks?')) {
+                    schedule = {};
+                    localStorage.removeItem(STORAGE_KEY);
+                    render();
+                }
+            });
+        }
+
+        function handleSave() {
+            document.getElementById('saveBtn').addEventListener('click', () => {
+                saveSchedule();
+                alert('Schedule saved successfully!');
+            });
+        }
+
+        // Initialize
+        loadSchedule();
+        initWeekPicker();
+        handleNavigation();
+        initTemplateSelect();
+        handleClear();
+        handleSave();
+        render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#eef2ff">
+    <meta name="format-detection" content="telephone=no">
+    <title>Shift Sign-Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --ink: #1e293b;
+            --muted: #475569;
+            --accent: #6366f1;
+            --accent-2: #8b5cf6;
+            --good: #059669;
+            --danger: #e11d48;
+            --s2b: #eab308;
+            --uni: #a855f7;
+            --bet: #ef4444;
+            --glass: rgba(255, 255, 255, 0.55);
+            --glass-solid: rgba(255, 255, 255, 0.92);
+            --glass-strong: rgba(255, 255, 255, 0.75);
+            --stroke: rgba(255, 255, 255, 0.6);
+            --shadow: 0 8px 32px rgba(80, 80, 160, 0.18);
+            --bg: #eef2ff;
+            --bg-grad:
+                radial-gradient(1100px 700px at 85% -10%, rgba(196, 181, 253, 0.75), transparent 60%),
+                radial-gradient(900px 700px at -15% 15%, rgba(165, 243, 252, 0.7), transparent 60%),
+                radial-gradient(900px 700px at 95% 85%, rgba(251, 207, 232, 0.7), transparent 60%),
+                radial-gradient(700px 500px at 20% 90%, rgba(199, 210, 254, 0.8), transparent 60%);
+            --blob-1: #c4b5fd;
+            --blob-2: #a5f3fc;
+            --blob-3: #f9a8d4;
+            --seg-track: rgba(255, 255, 255, 0.35);
+            --seg-active: #fff;
+            --seg-active-ink: #4f46e5;
+            --chip-bg: #fff;
+            --chip-stroke: rgba(30, 41, 59, 0.08);
+            --chip-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
+            --section-bg: rgba(255, 255, 255, 0.5);
+            --section-stroke: rgba(255, 255, 255, 0.55);
+            --input-bg: rgba(255, 255, 255, 0.7);
+            --input-stroke: rgba(100, 116, 139, 0.4);
+            --pill-bg: rgba(255, 255, 255, 0.75);
+            --admin-chip-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            --admin-chip-ink: #4f46e5;
+            --progress-track: rgba(148, 163, 184, 0.25);
+            --hover-glow: rgba(80, 80, 160, 0.2);
+            --add-high: rgba(255, 255, 255, 0.75);
+            --add-high-in: rgba(255, 255, 255, 0.3);
+            --radius: 24px;
+        }
+
+        :root[data-theme="dark"] {
+            --ink: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #818cf8;
+            --accent-2: #c084fc;
+            --good: #34d399;
+            --danger: #fda4af;
+            --s2b: #facc15;
+            --uni: #c084fc;
+            --bet: #f87171;
+            --glass: rgba(30, 41, 59, 0.55);
+            --glass-solid: rgba(15, 23, 42, 0.92);
+            --glass-strong: rgba(30, 41, 59, 0.8);
+            --stroke: rgba(255, 255, 255, 0.14);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+            --bg: #0b1220;
+            --bg-grad:
+                radial-gradient(1100px 700px at 85% -10%, rgba(139, 92, 246, 0.35), transparent 60%),
+                radial-gradient(900px 700px at -15% 15%, rgba(34, 211, 238, 0.22), transparent 60%),
+                radial-gradient(900px 700px at 95% 85%, rgba(236, 72, 153, 0.3), transparent 60%),
+                radial-gradient(700px 500px at 20% 90%, rgba(99, 102, 241, 0.32), transparent 60%);
+            --blob-1: rgba(139, 92, 246, 0.5);
+            --blob-2: rgba(34, 211, 238, 0.35);
+            --blob-3: rgba(236, 72, 153, 0.45);
+            --seg-track: rgba(255, 255, 255, 0.06);
+            --seg-active: rgba(255, 255, 255, 0.12);
+            --seg-active-ink: #c7d2fe;
+            --chip-bg: rgba(255, 255, 255, 0.08);
+            --chip-stroke: rgba(255, 255, 255, 0.12);
+            --chip-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            --section-bg: rgba(255, 255, 255, 0.05);
+            --section-stroke: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.06);
+            --input-stroke: rgba(148, 163, 184, 0.4);
+            --pill-bg: rgba(255, 255, 255, 0.08);
+            --admin-chip-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.22));
+            --admin-chip-ink: #c7d2fe;
+            --hover-glow: rgba(0, 0, 0, 0.45);
+            --add-high: rgba(255, 255, 255, 0.14);
+            --add-high-in: rgba(255, 255, 255, 0.07);
+        }
+
+        html, body { min-height: 100%; font-family: 'SF Pro Display', 'SF Pro Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+        button, input, select, textarea { font-family: inherit; }
+        .con { font-variant-ligatures: none; }
+
+        body {
+            color: var(--ink);
+            min-height: 100vh;
+            padding: calc(16px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));
+            background-color: var(--bg);
+            background-image: var(--bg-grad);
+            background-attachment: fixed;
+            transition: background-color 0.3s ease;
+        }
+
+        .blob {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.55;
+            z-index: 0;
+            pointer-events: none;
+            animation: drift 24s ease-in-out infinite alternate;
+        }
+        .blob.b1 { width: 420px; height: 420px; background: var(--blob-1); top: -120px; right: -80px; }
+        .blob.b2 { width: 360px; height: 360px; background: var(--blob-2); bottom: 10%; left: -120px; animation-delay: -8s; }
+        .blob.b3 { width: 320px; height: 320px; background: var(--blob-3); top: 45%; right: -100px; animation-delay: -16s; }
+        .blob { transition: background 0.3s ease; }
+
+        @keyframes drift {
+            from { transform: translate(0, 0) scale(1); }
+            to   { transform: translate(30px, -24px) scale(1.06); }
+        }
+
+        .container { position: relative; z-index: 1; max-width: 1480px; margin: 0 auto; }
+
+        .glass {
+            background: var(--glass-solid);
+            border: 1px solid var(--stroke);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+            .glass {
+                background: var(--glass);
+                -webkit-backdrop-filter: blur(24px) saturate(180%);
+                backdrop-filter: blur(24px) saturate(180%);
+            }
+        }
+
+        /* ---------- header ---------- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 18px 20px;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 1.45rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(120deg, #4338ca, #7c3aed 55%, #db2777);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        header p { color: var(--muted); font-size: 0.8rem; margin-top: 3px; font-weight: 500; }
+
+        .admin-area { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+        .head-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+        .theme-btn {
+            padding: 11px 13px;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* ---------- buttons ---------- */
+        .btn {
+            background: var(--glass-strong);
+            border: 1px solid var(--stroke);
+            color: var(--ink);
+            border-radius: 14px;
+            padding: 11px 16px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s;
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn:hover { box-shadow: 0 4px 16px var(--hover-glow); }
+        .btn-accent { background: linear-gradient(135deg, #6366f1, #8b5cf6); border: none; color: #fff; }
+        .btn-danger { color: var(--danger); }
+
+        .login-form { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+        .login-form input {
+            background: var(--glass-strong);
+            border: 1px solid var(--stroke);
+            border-radius: 12px;
+            padding: 11px 12px;
+            font-size: 1rem;
+            outline: none;
+            color: var(--ink);
+            width: 150px;
+        }
+        .login-form input:focus { border-color: var(--accent); }
+
+        .admin-chip {
+            display: flex; align-items: center; gap: 6px;
+            background: var(--admin-chip-bg);
+            border: 1px solid rgba(129, 140, 248, 0.4);
+            color: var(--admin-chip-ink);
+            padding: 9px 13px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* ---------- segmented navs ---------- */
+        .segmented {
+            display: flex;
+            gap: 4px;
+            padding: 5px;
+            margin-bottom: 14px;
+            background: var(--seg-track);
+            border: 1px solid var(--stroke);
+            border-radius: 18px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            box-shadow: inset 0 1px 3px rgba(80, 80, 160, 0.08);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .segmented::-webkit-scrollbar { display: none; }
+
+        .segment {
+            flex: 1 1 0;
+            min-width: max-content;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            padding: 12px 14px;
+            border-radius: 13px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .segment.active {
+            background: var(--seg-active);
+            color: var(--seg-active-ink);
+            box-shadow: 0 3px 12px rgba(80, 80, 160, 0.22);
+        }
+        .segment:not(.active):hover { color: var(--ink); }
+
+
+        /* ---------- summary + caption ---------- */
+        .summarybar {
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            padding: 12px 18px; margin-bottom: 14px; font-size: 0.85rem; color: var(--ink); font-weight: 700;
+        }
+        .progress {
+            height: 8px; border-radius: 99px; overflow: hidden;
+            background: var(--progress-track); flex: 1; min-width: 60px; max-width: 160px;
+        }
+        .progress > i {
+            display: block; height: 100%; border-radius: 99px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            transition: width 0.4s ease;
+        }
+
+        .caption {
+            padding: 13px 18px; margin-bottom: 16px; font-size: 0.85rem;
+            color: var(--ink); line-height: 1.5; font-weight: 600; text-align: center;
+        }
+
+        /* ---------- tables ---------- */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+        @media (max-width: 1100px) { .tables-grid { grid-template-columns: 1fr; } }
+        .table-wrap {
+            padding: 16px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .table-title {
+            font-size: 1rem; font-weight: 800; letter-spacing: -0.01em;
+            margin-bottom: 10px; text-align: center;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 640px; }
+        th, td { text-align: center; padding: 10px 14px; vertical-align: top; border-bottom: 1px solid var(--stroke); }
+        thead th {
+            font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--muted);
+        }
+        .th-s2b { color: var(--s2b); }
+        .th-uni { color: var(--uni); }
+        .th-bet { color: var(--bet); }
+        .td-time { font-weight: 800; font-size: 0.95rem; white-space: nowrap; min-width: 112px; vertical-align: middle; }
+        .td-away { white-space: nowrap; }
+        .ring {
+            display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
+            color: var(--muted); font-size: 0.72rem; font-weight: 800;
+            font-variant-numeric: tabular-nums;
+        }
+        .ring svg { width: 44px; height: 44px; display: block; }
+        .ring-bg { fill: none; stroke: var(--progress-track); stroke-width: 5; }
+        .ring-fg {
+            fill: none; stroke: var(--good); stroke-width: 5; stroke-linecap: round;
+            transform: rotate(-90deg); transform-origin: center;
+            transition: stroke-dashoffset 0.4s ease;
+        }
+        .ring.full .ring-fg { stroke: var(--accent); }
+        tbody tr:last-child td { border-bottom: none; }
+        .table-wrap .input-box { margin-top: 0; }
+        .table-wrap .full-note { margin-top: 8px; text-align: center; }
+        .table-wrap .chip { margin-top: 6px; }
+        .table-wrap .chip:first-child { margin-top: 0; }
+
+        /* ---------- cards (legacy) ---------- */
+
+        .chip {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: var(--chip-bg);
+            border: 1px solid var(--chip-stroke);
+            border-radius: 999px;
+            padding: 9px 14px;
+            font-weight: 700; font-size: 0.92rem; color: var(--ink);
+            box-shadow: var(--chip-shadow);
+            cursor: default;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .chip .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .chip .lock { opacity: 0.55; font-size: 0.8rem; flex-shrink: 0; }
+        .chip-x {
+            border: none; background: transparent; color: var(--muted);
+            font-size: 1rem; line-height: 1; padding: 2px; cursor: pointer; flex-shrink: 0;
+        }
+        .chip-x:hover { color: var(--danger); }
+        .chip.editable { cursor: pointer; }
+        .chip.editable:active { transform: scale(0.98); }
+
+        .input-box { margin-top: 10px; }
+        .add-box {
+            position: relative;
+            display: flex; align-items: center; gap: 10px;
+            padding: 6px 6px 6px 8px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--glass-strong), var(--glass));
+            border: 1px solid var(--stroke);
+            -webkit-backdrop-filter: blur(22px) saturate(160%);
+            backdrop-filter: blur(22px) saturate(160%);
+            box-shadow:
+                inset 0 1px 1px var(--add-high),
+                inset 0 -12px 24px var(--add-high-in),
+                0 4px 16px var(--chip-shadow);
+            transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+        }
+        .add-box:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                inset 0 1px 1px var(--add-high),
+                inset 0 -12px 24px var(--add-high-in),
+                0 8px 22px var(--hover-glow);
+        }
+        .add-box:focus-within {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--glass-solid), var(--glass-strong));
+            box-shadow:
+                inset 0 1px 1px var(--add-high),
+                inset 0 -8px 18px var(--add-high-in),
+                0 0 0 4px var(--hover-glow),
+                0 12px 28px var(--hover-glow);
+            transform: translateY(-1px);
+        }
+        .add-ico {
+            width: 26px; height: 26px;
+            display: grid; place-items: center;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--glass-strong), var(--glass));
+            border: 1px solid var(--stroke);
+            color: var(--accent);
+            box-shadow: inset 0 1px 1px var(--add-high), 0 2px 6px var(--chip-shadow);
+        }
+        .add-ico svg { display: block; }
+        .add-input {
+            flex: 1; min-width: 0; width: 100%;
+            border: none; background: transparent;
+            padding: 3px 2px;
+            font-size: 0.95rem; font-weight: 600;
+            color: var(--ink);
+            outline: none;
+            text-align: center;
+            -webkit-appearance: none;
+        }
+        .add-input::placeholder { color: var(--muted); font-weight: 600; opacity: 0.85; }
+        .add-input:focus::placeholder { color: transparent; }
+        .add-btn {
+            width: 28px; height: 28px;
+            display: grid; place-items: center;
+            flex-shrink: 0;
+            border: none; cursor: pointer;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            font-size: 1.05rem; line-height: 1; font-weight: 700;
+            box-shadow: 0 3px 10px rgba(99, 102, 241, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.55);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .add-btn:active { transform: scale(0.86); }
+        .add-btn:disabled { opacity: 0.55; cursor: default; }
+
+        .full-note {
+            margin-top: 10px; font-size: 0.78rem; font-weight: 700; color: var(--danger);
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        /* ---------- toast ---------- */
+        .toast {
+            position: fixed; left: 50%; bottom: calc(28px + env(safe-area-inset-bottom));
+            transform: translateX(-50%) translateY(90px);
+            background: rgba(30, 41, 59, 0.88);
+            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px);
+            color: #fff; padding: 13px 20px; border-radius: 999px;
+            font-size: 0.88rem; font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0; transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            z-index: 60; pointer-events: none; max-width: 90vw; text-align: center;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        @media (max-width: 620px) {
+            h1 { font-size: 1.25rem; }
+            header { padding: 15px 16px; }
+            .slot-card { padding: 14px; }
+            .segment { font-size: 0.92rem; padding: 11px 12px; }
+        }
+    </style>
+    <script>
+        (function () {
+            var mode = 'auto';
+            try { mode = localStorage.getItem('shiftTheme') || 'auto'; } catch (e) {}
+            var dark = mode === 'dark' || (mode === 'auto' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches);
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        })();
+    </script>
+</head>
+<body>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+
+    <div class="container">
+        <header class="glass">
+            <div>
+                <h1>Shift Sign-Up</h1>
+                <p>Add your name to a time slot.</p>
+            </div>
+            <div class="head-actions">
+                <button class="btn theme-btn" id="themeBtn" title="Theme"></button>
+                <div class="admin-area" id="adminArea"></div>
+            </div>
+        </header>
+
+        <nav class="segmented" id="shiftNav" aria-label="Shift"></nav>
+
+        <div class="summarybar glass">
+            <span id="summaryText"></span>
+            <span class="progress"><i id="summaryBar"></i></span>
+        </div>
+
+        <p class="caption glass"><strong>Break</strong> and <strong>2nd Line</strong> can each hold only <strong>one</strong> person at a time. Each agent can take only <strong>one</strong> slot per shift. If someone from your group already signed up this hour, the other shift is blocked for you. Filled names are locked and can only be changed by a manager.</p>
+
+        <section id="cards"></section>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const state = {
+            config: null,
+            data: null,
+            shift: 'day',
+            tab: 'break',
+            token: localStorage.getItem('shiftAdminToken') || '',
+            adminPanelOpen: false,
+            editing: null
+        };
+
+        const $ = (id) => document.getElementById(id);
+
+        /* ---------------- theme ---------------- */
+
+        let themeMode = 'auto';
+        try { themeMode = localStorage.getItem('shiftTheme') || 'auto'; } catch (e) {}
+        const darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+        function applyTheme() {
+            const dark = themeMode === 'dark' || (themeMode === 'auto' && !!darkQuery && darkQuery.matches);
+            document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', dark ? '#0b1220' : '#eef2ff');
+            const btn = $('themeBtn');
+            if (btn) {
+                const map = { auto: ['&#127795;', 'Theme: auto (follow device)'],
+                              light: ['&#9728;&#65039;', 'Theme: light'],
+                              dark: ['&#127769;', 'Theme: dark'] };
+                btn.innerHTML = map[themeMode][0];
+                btn.title = map[themeMode][1];
+                btn.setAttribute('aria-label', map[themeMode][1]);
+            }
+        }
+
+        function cycleTheme() {
+            const order = ['auto', 'light', 'dark'];
+            themeMode = order[(order.indexOf(themeMode) + 1) % order.length];
+            try { localStorage.setItem('shiftTheme', themeMode); } catch (e) {}
+            applyTheme();
+            toast('Theme: ' + ({ auto: 'Auto (device)', light: 'Light', dark: 'Dark' })[themeMode]);
+        }
+
+        function esc(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        async function api(path, opts) {
+            opts = opts || {};
+            const headers = { 'Content-Type': 'application/json' };
+            if (state.token) headers['Authorization'] = 'Bearer ' + state.token;
+            const res = await fetch(path, {
+                method: opts.method || 'GET',
+                headers,
+                body: opts.body ? JSON.stringify(opts.body) : undefined
+            });
+            let json = {};
+            try { json = await res.json(); } catch (e) {}
+            if (res.status === 401 && path !== '/api/login') {
+                const wasAdmin = !!state.token;
+                state.token = '';
+                try { localStorage.removeItem('shiftAdminToken'); } catch (e) {}
+                if (wasAdmin) {
+                    state.adminPanelOpen = true;
+                    renderHeader();
+                    toast('Session expired \u2014 log in again');
+                }
+            }
+            if (!res.ok) throw new Error(json.error || 'Request failed');
+            return json;
+        }
+
+        let toastTimer = null;
+        function toast(msg) {
+            const t = $('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+        }
+
+        /* ---------------- header / admin ---------------- */
+
+        function renderHeader() {
+            const E = $('adminArea');
+            E.innerHTML = '';
+            if (state.token) {
+                E.innerHTML =
+                    '<span class="admin-chip">&#128737; Admin</span>' +
+                    '<button class="btn btn-danger" id="clearAllBtn">Clear all</button>' +
+                    '<button class="btn" id="logoutBtn">Logout</button>';
+                $('clearAllBtn').addEventListener('click', clearAll);
+                $('logoutBtn').addEventListener('click', () => {
+                    state.token = '';
+                    localStorage.removeItem('shiftAdminToken');
+                    state.editing = null;
+                    renderHeader();
+                    renderCards();
+                });
+            } else if (state.adminPanelOpen) {
+                E.innerHTML =
+                    '<form class="login-form" id="loginForm">' +
+                    '<input name="username" placeholder="Username" autocomplete="username">' +
+                    '<input name="password" type="password" placeholder="Password" autocomplete="current-password">' +
+                    '<button class="btn btn-accent" type="submit">Login</button>' +
+                    '<button class="btn" type="button" id="cancelLogin">Cancel</button>' +
+                    '</form>';
+                $('loginForm').addEventListener('submit', doLogin);
+                $('cancelLogin').addEventListener('click', () => { state.adminPanelOpen = false; renderHeader(); });
+            } else {
+                E.innerHTML = '<button class="btn" id="openAdminBtn">Admin</button>';
+                $('openAdminBtn').addEventListener('click', () => { state.adminPanelOpen = true; renderHeader(); });
+            }
+        }
+
+        function renderSegmented(containerId, items, activeKey, onPick) {
+            const nav = $(containerId);
+            nav.innerHTML = '';
+            for (const it of items) {
+                const b = document.createElement('button');
+                b.className = 'segment' + (it.key === activeKey ? ' active' : '');
+                b.textContent = it.label;
+                b.addEventListener('click', () => {
+                    onPick(it.key);
+                    renderSegmented(containerId, items, it.key, onPick);
+                });
+                nav.appendChild(b);
+            }
+        }
+
+        function renderShifts() {
+            renderSegmented('shiftNav', Object.entries(state.config.shifts).map(([k, c]) => ({ key: k, label: c.label })), state.shift, (k) => {
+                state.shift = k;
+                state.editing = null;
+                renderCards();
+            });
+        }
+
+        /* ---------------- cards ---------------- */
+
+        function filledCount(row) {
+            let n = 0;
+            for (const s of state.config.sections) {
+                for (const v of row.slots[s.key]) {
+                    if (v) n++;
+                }
+            }
+            return n;
+        }
+
+        function groupHourTaken(shift, ti, section) {
+            const d = state.data[shift];
+            for (const t of state.config.tabs) {
+                if (d[t.key][ti].slots[section].some((v) => v)) return true;
+            }
+            return false;
+        }
+
+        function slotKey(tab, si, section) {
+            return state.shift + '/' + tab + '/' + si + '/' + section;
+        }
+
+        function firstFreeSlot(row, section, limit) {
+            for (let si = 0; si < limit; si++) {
+                if (!row.slots[section][si]) return si;
+            }
+            return 0;
+        }
+
+        const ADD_PERSON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+        const EDIT_PENCIL = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+        function renderCards() {
+            const wrap = $('cards');
+            const cfg = state.config.shifts[state.shift];
+            const admin = !!state.token;
+            const times = cfg.times;
+
+            let totalUsed = 0, totalCap = 0;
+            const html = ['<div class="tables-grid">'];
+
+            for (const t of state.config.tabs) {
+                const rows = state.data[state.shift][t.key];
+
+                html.push('<div class="table-wrap glass">');
+                html.push('<div class="table-title">' + esc(t.label) + '</div>');
+                html.push('<table>');
+                html.push('<thead><tr>' +
+                    '<th>Time</th>' +
+                    '<th class="th-s2b">S2B</th>' +
+                    '<th class="th-uni">Universal</th>' +
+                    '<th class="th-bet">Betsider</th>' +
+                    '<th>Away from chats</th>' +
+                    '</tr></thead>');
+                html.push('<tbody>');
+
+                for (let ti = 0; ti < times.length; ti++) {
+                    const limit = cfg.away[ti];
+                    const row = rows[ti];
+                    const used = filledCount(row);
+                    totalUsed += used;
+                    totalCap += limit;
+
+                    html.push('<tr>');
+                    html.push('<td class="td-time">' + esc(times[ti]) + '</td>');
+
+                    for (const s of state.config.sections) {
+                        html.push('<td class="td-section">');
+                        for (let si = 0; si < limit; si++) {
+                            const name = row.slots[s.key][si];
+                            if (!name) continue;
+                            if (state.editing === slotKey(t.key, si, s.key) && admin) {
+                                html.push('<div class="add-box"><span class="add-ico">' + EDIT_PENCIL + '</span><input class="add-input" value="' + esc(name) + '" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" data-mode="edit"><button class="add-btn" type="button" title="Save">+</button></div>');
+                            } else {
+                                html.push('<div class="chip' + (admin ? ' editable' : '') + '" data-key="' + slotKey(t.key, si, s.key) + '">');
+                                if (admin) html.push('<button class="chip-x" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" title="Remove">&#10005;</button>');
+                                html.push('<span class="name">' + esc(name) + '</span><span class="lock">&#128274;</span>');
+                                html.push('</div>');
+                            }
+                        }
+                        if (groupHourTaken(state.shift, ti, s.key)) {
+                            html.push('<div class="full-note">&#128274; Taken &#8212; no more agents from this group</div>');
+                        } else if (used === 0) {
+                            html.push('<div class="add-box"><span class="add-ico">' + ADD_PERSON + '</span><input class="add-input" placeholder="✎ ⋯" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + firstFreeSlot(row, s.key, limit) + '" data-mode="new"><button class="add-btn" type="button" title="Sign up">+</button></div>');
+                        }
+                        html.push('</td>');
+                    }
+
+                    const R = 2 * Math.PI * 16;
+                    const circ = R * (1 - (used / limit));
+                    html.push('<td class="td-away"><span class="ring' + (used > 0 ? ' full' : '') + '"><svg viewBox="0 0 40 40">' +
+                        '<circle class="ring-bg" cx="20" cy="20" r="16"></circle>' +
+                        '<circle class="ring-fg" cx="20" cy="20" r="16" style="stroke-dasharray:' + R.toFixed(2) + ';stroke-dashoffset:' + circ.toFixed(2) + '"></circle>' +
+                        '</svg><b>' + used + '&thinsp;/&thinsp;' + limit + '</b></span></td>');
+                    html.push('</tr>');
+                }
+
+                html.push('</tbody>');
+                html.push('</table>');
+                html.push('</div>');
+            }
+
+            html.push('</div>');
+
+            wrap.innerHTML = html.join('');
+
+            const usedPct = totalCap ? Math.round((totalUsed / totalCap) * 100) : 0;
+            $('summaryText').textContent = state.config.shifts[state.shift].label + ' \u2014 ' + totalUsed + ' of ' + totalCap + ' filled';
+            $('summaryBar').style.width = usedPct + '%';
+
+            bindSlotEvents();
+        }
+
+        function bindSlotEvents() {
+            inputs().forEach((inp) => {
+                inp.addEventListener('focus', () => { inp.dataset.focused = '1'; });
+                inp.addEventListener('blur', (e) => handleCommit(e, false));
+                inp.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleCommit(e, true);
+                        inp.blur();
+                    }
+                });
+            });
+
+            document.querySelectorAll('.chip.editable').forEach((el) => {
+                el.addEventListener('click', () => {
+                    if (!state.token) return;
+                    state.editing = el.dataset.key;
+                    renderCards();
+                    const ed = document.querySelector('#cards input[data-mode="edit"]');
+                    if (ed) { ed.focus(); ed.select(); }
+                });
+            });
+
+            document.querySelectorAll('.chip-x').forEach((btn) => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    clearOneSlot(btn.dataset.shift, btn.dataset.tab, Number(btn.dataset.ti), btn.dataset.section, Number(btn.dataset.si));
+                });
+            });
+
+            document.querySelectorAll('.add-btn').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const inp = btn.parentElement.querySelector('.add-input');
+                    if (inp && inp.value.trim()) {
+                        handleCommit(inp, true);
+                    }
+                });
+            });
+        }
+
+        function inputs() {
+            return Array.prototype.slice.call(document.querySelectorAll('#cards .add-input'));
+        }
+
+        async function handleCommit(e, isEnter) {
+            const inp = e.target || e;
+            inp.dataset.focused = '1';
+            if (inp.dataset.committed === inp.value) return;
+            inp.dataset.committed = inp.value;
+            const v = inp.value.trim();
+            const mode = inp.dataset.mode;
+            const body = {
+                shift: inp.dataset.shift,
+                tab: inp.dataset.tab,
+                timeIdx: Number(inp.dataset.ti),
+                section: inp.dataset.section,
+                slotIdx: Number(inp.dataset.si)
+            };
+            try {
+                if (mode === 'edit' && !v) {
+                    await api('/api/clearSlot', { method: 'POST', body });
+                } else if (v) {
+                    await api('/api/slot', { method: 'POST', body: Object.assign({}, body, { name: v }) });
+                }
+                state.editing = null;
+            } catch (err) {
+                toast(err.message);
+            }
+            await refresh(false);
+        }
+
+        async function clearOneSlot(shift, tab, ti, section, si) {
+            try {
+                await api('/api/clearSlot', { method: 'POST', body: { shift, tab, timeIdx: ti, section, slotIdx: si } });
+                state.editing = null;
+                await refresh(false);
+            } catch (err) {
+                toast(err.message);
+            }
+        }
+
+        async function clearAll() {
+            if (!confirm('Clear ALL names from every schedule (Day, Night, Monday)? This cannot be undone.')) return;
+            try {
+                await api('/api/clearAll', { method: 'POST' });
+                state.editing = null;
+                await refresh(false);
+                toast('All slots cleared');
+            } catch (err) {
+                toast(err.message);
+                if (/Admin|Token/i.test(err.message)) logout();
+            }
+        }
+
+        async function doLogin(e) {
+            e.preventDefault();
+            const f = e.target;
+            try {
+                const res = await api('/api/login', { method: 'POST', body: { username: f.username.value.trim(), password: f.password.value } });
+                state.token = res.token;
+                localStorage.setItem('shiftAdminToken', res.token);
+                state.adminPanelOpen = false;
+                renderHeader();
+                renderCards();
+                toast('Logged in');
+            } catch (err) {
+                toast(err.message);
+            }
+        }
+
+        function logout() {
+            state.token = '';
+            localStorage.removeItem('shiftAdminToken');
+        }
+
+        /* ---------------- data + polling ---------------- */
+
+        async function refresh(skipFocused) {
+            if (skipFocused) {
+                const act = document.activeElement;
+                if (act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA')) return;
+            }
+            try {
+                const res = await api('/api/data');
+                if (res.config) state.config = res.config;
+                state.data = res.data;
+                render();
+            } catch (e) {}
+        }
+
+        function render() {
+            if (!state.config || !state.data) return;
+            renderHeader();
+            renderShifts();
+            renderCards();
+        }
+
+        (async function init() {
+            $('themeBtn').addEventListener('click', cycleTheme);
+            applyTheme();
+            if (darkQuery) {
+                darkQuery.addEventListener('change', () => { if (themeMode === 'auto') applyTheme(); });
+            }
+            let pollTimer = null;
+            function startPolling() {
+                stopPolling();
+                pollTimer = setInterval(() => refresh(true), 2000);
+            }
+            function stopPolling() {
+                if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
+            }
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    stopPolling();
+                } else {
+                    startPolling();
+                    refresh(false);
+                }
+            });
+            window.addEventListener('focus', () => refresh(false));
+            window.addEventListener('pageshow', () => refresh(false));
+            await refresh(false);
+            if (state.token) {
+                api('/api/me').catch(() => {});
+            }
+            await new Promise((r) => setTimeout(r, 100));
+            startPolling();
+        })();
+    </script>
+</body>
+</html>

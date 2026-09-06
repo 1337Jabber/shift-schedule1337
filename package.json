@@ -1,0 +1,16 @@
+{
+  "name": "shift-sign-up",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Shift sign-up schedule (Break / 2nd Line) with Vercel Postgres persistence",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0"
+  }
+}
