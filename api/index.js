@@ -1,4 +1,4 @@
-const { handleRequest } = require('../server');
+const { handleRequest } = require('../server-core');
 
 module.exports = async (req, res) => {
   try {

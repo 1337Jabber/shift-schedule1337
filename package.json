@@ -7,10 +7,13 @@
     "node": ">=18"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node server-core.js",
+    "dev": "node server-core.js"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0"
+  },
+  "devDependencies": {
+    "vercel": "^59.11.7"
   }
 }

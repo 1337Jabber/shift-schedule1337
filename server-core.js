@@ -7,11 +7,21 @@ const { sql } = require('@vercel/postgres');
 
 const ROOT = __dirname;
 const PUBLIC_DIR = path.join(ROOT, 'public');
-const DATA_FILE = path.join(ROOT, 'data.json');
-const USERS_FILE = path.join(ROOT, 'users.json');
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 const USE_DB = !!(process.env.POSTGRES_URL || process.env.DATABASE_URL);
+
+function pickStorageDir() {
+  try {
+    fs.accessSync(ROOT, fs.constants.W_OK);
+    return ROOT;
+  } catch (e) {
+    return os.tmpdir();
+  }
+}
+const STORE_DIR = pickStorageDir();
+const DATA_FILE = path.join(STORE_DIR, 'data.json');
+const USERS_FILE = path.join(STORE_DIR, 'users.json');
 
 const SHIFTS = {
   day: {
