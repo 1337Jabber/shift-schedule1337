@@ -13,3 +13,5 @@ node_modules/
 data.json
 users.json
 *.broken-*.json
+.vercel
+.env*
