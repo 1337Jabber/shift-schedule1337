@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#eef2ff">
     <meta name="format-detection" content="telephone=no">
-    <title>Shift Sign-Up</title>
+    <title>Shift Schedule</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -13,19 +14,20 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         :root {
-            --ink: #1e293b;
-            --muted: #475569;
-            --accent: #6366f1;
-            --accent-2: #8b5cf6;
-            --good: #059669;
-            --danger: #e11d48;
-            --s2b: #eab308;
-            --uni: #a855f7;
-            --bet: #ef4444;
-            --glass: rgba(255, 255, 255, 0.55);
-            --glass-solid: rgba(255, 255, 255, 0.92);
-            --glass-strong: rgba(255, 255, 255, 0.75);
-            --stroke: rgba(255, 255, 255, 0.6);
+            --ink: #0f172a;
+            --muted: #3f4a5f;
+            --accent: #4f46e5;
+            --accent-2: #7c3aed;
+            --good: #047857;
+            --danger: #be123c;
+            --s2b: #b45309;
+            --uni: #9333ea;
+            --bet: #dc2626;
+            --glass: rgba(255, 255, 255, 0.6);
+            --glass-solid: rgba(255, 255, 255, 0.95);
+            --glass-strong: rgba(255, 255, 255, 0.8);
+            --table-glass: rgba(255, 255, 255, 0.55);
+            --stroke: rgba(15, 23, 42, 0.12);
             --shadow: 0 8px 32px rgba(80, 80, 160, 0.18);
             --bg: #eef2ff;
             --bg-grad:
@@ -36,20 +38,24 @@
             --blob-1: #c4b5fd;
             --blob-2: #a5f3fc;
             --blob-3: #f9a8d4;
+            --blob-4: #a5b4fc;
+            --blob-5: #fcd34d;
             --seg-track: rgba(255, 255, 255, 0.35);
             --seg-active: #fff;
-            --seg-active-ink: #4f46e5;
+            --seg-active-ink: #4338ca;
             --chip-bg: #fff;
-            --chip-stroke: rgba(30, 41, 59, 0.08);
-            --chip-shadow: 0 2px 8px rgba(30, 41, 59, 0.08);
-            --section-bg: rgba(255, 255, 255, 0.5);
-            --section-stroke: rgba(255, 255, 255, 0.55);
-            --input-bg: rgba(255, 255, 255, 0.7);
-            --input-stroke: rgba(100, 116, 139, 0.4);
-            --pill-bg: rgba(255, 255, 255, 0.75);
+            --chip-stroke: rgba(30, 41, 59, 0.16);
+            --chip-shadow: 0 2px 8px rgba(30, 41, 59, 0.12);
+            --section-bg: rgba(255, 255, 255, 0.6);
+            --section-stroke: rgba(15, 23, 42, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --input-stroke: rgba(51, 65, 85, 0.5);
+            --pill-bg: rgba(255, 255, 255, 0.8);
             --admin-chip-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
-            --admin-chip-ink: #4f46e5;
-            --progress-track: rgba(148, 163, 184, 0.25);
+            --admin-chip-ink: #4338ca;
+            --progress-track: rgba(100, 116, 139, 0.3);
+            --now-neon: #7c3aed;
+            --now-glow: rgba(124, 58, 237, 0.35);
             --hover-glow: rgba(80, 80, 160, 0.2);
             --add-high: rgba(255, 255, 255, 0.75);
             --add-high-in: rgba(255, 255, 255, 0.3);
@@ -69,6 +75,7 @@
             --glass: rgba(30, 41, 59, 0.55);
             --glass-solid: rgba(15, 23, 42, 0.92);
             --glass-strong: rgba(30, 41, 59, 0.8);
+            --table-glass: rgba(15, 23, 42, 0.5);
             --stroke: rgba(255, 255, 255, 0.14);
             --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
             --bg: #0b1220;
@@ -80,6 +87,8 @@
             --blob-1: rgba(139, 92, 246, 0.5);
             --blob-2: rgba(34, 211, 238, 0.35);
             --blob-3: rgba(236, 72, 153, 0.45);
+            --blob-4: rgba(129, 140, 248, 0.45);
+            --blob-5: rgba(251, 191, 36, 0.4);
             --seg-track: rgba(255, 255, 255, 0.06);
             --seg-active: rgba(255, 255, 255, 0.12);
             --seg-active-ink: #c7d2fe;
@@ -94,6 +103,8 @@
             --admin-chip-bg: linear-gradient(135deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.22));
             --admin-chip-ink: #c7d2fe;
             --hover-glow: rgba(0, 0, 0, 0.45);
+            --now-neon: #a78bfa;
+            --now-glow: rgba(167, 139, 250, 0.4);
             --add-high: rgba(255, 255, 255, 0.14);
             --add-high-in: rgba(255, 255, 255, 0.07);
         }
@@ -106,32 +117,35 @@
             color: var(--ink);
             min-height: 100vh;
             padding: calc(16px + env(safe-area-inset-top)) 14px calc(40px + env(safe-area-inset-bottom));
+            background-color: transparent;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
             background-color: var(--bg);
             background-image: var(--bg-grad);
-            background-attachment: fixed;
+            pointer-events: none;
             transition: background-color 0.3s ease;
         }
 
         .blob {
             position: fixed;
             border-radius: 50%;
-            filter: blur(70px);
-            opacity: 0.55;
+            opacity: 0.85;
             z-index: 0;
             pointer-events: none;
-            animation: drift 24s ease-in-out infinite alternate;
         }
-        .blob.b1 { width: 420px; height: 420px; background: var(--blob-1); top: -120px; right: -80px; }
-        .blob.b2 { width: 360px; height: 360px; background: var(--blob-2); bottom: 10%; left: -120px; animation-delay: -8s; }
-        .blob.b3 { width: 320px; height: 320px; background: var(--blob-3); top: 45%; right: -100px; animation-delay: -16s; }
-        .blob { transition: background 0.3s ease; }
+        .blob.b1 { width: 640px; height: 640px; background: radial-gradient(closest-side, var(--blob-1), transparent 74%); top: -200px; right: -140px; }
+        .blob.b2 { width: 560px; height: 560px; background: radial-gradient(closest-side, var(--blob-2), transparent 72%); bottom: 8%; left: -180px; }
+        .blob.b3 { width: 480px; height: 480px; background: radial-gradient(closest-side, var(--blob-3), transparent 70%); top: 45%; right: -160px; }
+        .blob.b4 { width: 420px; height: 420px; background: radial-gradient(closest-side, var(--blob-4), transparent 70%); bottom: -100px; right: -80px; }
+        .blob.b5 { width: 380px; height: 380px; background: radial-gradient(closest-side, var(--blob-5), transparent 68%); top: -100px; left: -120px; }
 
-        @keyframes drift {
-            from { transform: translate(0, 0) scale(1); }
-            to   { transform: translate(30px, -24px) scale(1.06); }
-        }
-
-        .container { position: relative; z-index: 1; max-width: 1480px; margin: 0 auto; }
+        .container { position: relative; z-index: 1; max-width: 1702px; margin: 0 auto; }
 
         .glass {
             background: var(--glass-solid);
@@ -172,6 +186,9 @@
         .admin-area { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
         .head-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+        .head-groups { margin-bottom: 0; }
+        .head-groups .segment { padding: 10px 18px; }
 
         .theme-btn {
             padding: 11px 13px;
@@ -239,6 +256,7 @@
             transition: background 0.3s ease, border-color 0.3s ease;
         }
         .segmented::-webkit-scrollbar { display: none; }
+        .segmented[hidden] { display: none; }
 
         .segment {
             flex: 1 1 0;
@@ -255,53 +273,211 @@
             white-space: nowrap;
         }
         .segment.active {
-            background: var(--seg-active);
-            color: var(--seg-active-ink);
-            box-shadow: 0 3px 12px rgba(80, 80, 160, 0.22);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.5), 0 0 0 1px rgba(129, 140, 248, 0.45);
+            transform: translateY(-1px);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
         }
         .segment:not(.active):hover { color: var(--ink); }
 
 
-        /* ---------- summary + caption ---------- */
-        .summarybar {
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            padding: 12px 18px; margin-bottom: 14px; font-size: 0.85rem; color: var(--ink); font-weight: 700;
+        /* ---------- rules ---------- */
+        .rules {
+            padding: 14px 18px; margin-bottom: 16px; font-size: 0.85rem;
+            color: var(--ink); line-height: 1.5; text-align: left;
+            border-left: 3px solid var(--accent);
         }
-        .progress {
-            height: 8px; border-radius: 99px; overflow: hidden;
-            background: var(--progress-track); flex: 1; min-width: 60px; max-width: 160px;
+        .rules-title {
+            font-weight: 800; font-size: 0.9rem; letter-spacing: 0.01em; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
         }
-        .progress > i {
-            display: block; height: 100%; border-radius: 99px;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
-            transition: width 0.4s ease;
+        .rules-title .rules-excl {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 20px; height: 20px; border-radius: 50%; line-height: 1;
+            background: var(--danger); color: #fff; font-size: 1rem; font-weight: 900;
+            box-shadow: 0 0 10px rgba(225, 29, 72, 0.7);
         }
+        .rules-list {
+            list-style: none; margin: 0; padding: 0; display: grid; gap: 8px;
+        }
+        .rules-list li { position: relative; padding-left: 16px; }
+        .rules-list li::before {
+            content: ''; position: absolute; left: 0; top: 7px; width: 8px; height: 8px; border-radius: 50%;
+            background: #94a3b8;
+        }
+        .rules-list li.r-break::before { background: #94a3b8; }
+        .rules-list li.r-line::before { background: #94a3b8; }
+        .rules-list li.r-green::before { background: #94a3b8; }
+        .rules-list li.r-lock::before { background: #94a3b8; }
+        .rk-break { color: var(--ink); font-weight: 800; }
+        .rk-green { color: var(--ink); font-weight: 800; }
+        .rk-line { color: var(--ink); font-weight: 800; }
+        .rk-s2b { color: var(--ink); font-weight: 800; }
+        .rk-uni { color: var(--ink); font-weight: 800; }
+        .rk-bet { color: var(--ink); font-weight: 800; }
+        .rk-lock { color: var(--danger); font-weight: 800; }
 
-        .caption {
-            padding: 13px 18px; margin-bottom: 16px; font-size: 0.85rem;
-            color: var(--ink); line-height: 1.5; font-weight: 600; text-align: center;
+        /* ---------- welcome / greeting ---------- */
+        .welcome {
+            display: flex; align-items: center; justify-content: center;
+            text-align: center;
+            padding: 26px 20px;
+            margin-bottom: 16px;
         }
+        .welcome-inner { display: grid; gap: 8px; justify-items: center; }
+        .welcome-greet b {
+            font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em;
+            background: linear-gradient(120deg, #4338ca, #7c3aed 55%, #db2777);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .welcome-wish { color: var(--muted); font-size: 0.98rem; font-weight: 600; }
+        .welcome-meta {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center;
+            margin-top: 4px;
+            font-size: 0.92rem; font-weight: 700; color: var(--muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .wm-day { color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; font-weight: 800; }
+        .wm-time { color: var(--ink); font-weight: 800; font-size: 1.1rem; }
+        .wm-sep { opacity: 0.5; }
 
         /* ---------- tables ---------- */
         .tables-grid {
+            position: relative;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
             align-items: start;
         }
         @media (max-width: 1100px) { .tables-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .blob.b1 { width: 480px; height: 480px; }
+            .blob.b2 { width: 420px; height: 420px; }
+            .blob.b3 { width: 360px; height: 360px; }
+            .blob.b4 { width: 320px; height: 320px; }
+            .blob.b5 { width: 300px; height: 300px; }
+            .glass {
+                -webkit-backdrop-filter: blur(14px) saturate(160%);
+                backdrop-filter: blur(14px) saturate(160%);
+            }
+        }
         .table-wrap {
+            position: relative;
             padding: 16px;
             margin-bottom: 16px;
+            min-width: 0;
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
+            background: var(--table-glass);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            backdrop-filter: blur(20px) saturate(160%);
         }
         .table-title {
             font-size: 1rem; font-weight: 800; letter-spacing: -0.01em;
             margin-bottom: 10px; text-align: center;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        table { width: 100%; border-collapse: collapse; min-width: 640px; }
-        th, td { text-align: center; padding: 10px 14px; vertical-align: top; border-bottom: 1px solid var(--stroke); }
+        .table-title .dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--tab-accent); box-shadow: 0 0 10px var(--tab-accent);
+        }
+        .table-wrap.tab-break { --tab-accent: #b45309; --tab-soft: rgba(180, 83, 9, 0.18); }
+        .table-wrap.tab-line2 { --tab-accent: #0d9488; --tab-soft: rgba(13, 148, 136, 0.18); }
+        [data-theme="dark"] .table-wrap.tab-break { --tab-accent: #fbbf24; --tab-soft: rgba(251, 191, 36, 0.12); }
+        [data-theme="dark"] .table-wrap.tab-line2 { --tab-accent: #2dd4bf; --tab-soft: rgba(45, 212, 191, 0.12); }
+        .table-wrap { border-top: 3px solid var(--tab-accent, rgba(255, 255, 255, 0.12)); }
+        .tr-free { background: linear-gradient(var(--tab-soft), var(--tab-soft)), var(--table-glass); }
+        .tr-free .td-time { font-weight: 900; text-shadow: 0 0 12px var(--tab-accent); }
+        .tr-full { opacity: 1; }
+        .tr-full .td-time { opacity: 0.45; }
+        .tr-full .add-ph,
+        .tr-full .add-box { opacity: 0.4; }
+        .tr-full .chip {
+            opacity: 0.7;
+            border-color: var(--chip-stroke);
+            box-shadow: var(--chip-shadow);
+        }
+        [data-theme="dark"] .tr-full .td-time { opacity: 0.4; }
+        .extra-tag {
+            display: block; margin-top: 4px; padding: 1px 6px; border-radius: 6px;
+            font-size: 0.6rem; font-weight: 800; letter-spacing: 0.02em; text-align: center;
+            background: rgba(45, 212, 191, 0.15); color: #0d9488;
+        }
+        [data-theme="dark"] .extra-tag { color: #2dd4bf; }
+        .tr-now { position: relative; }
+        .tr-now td {
+            background: linear-gradient(var(--tab-soft), var(--tab-soft)), var(--table-glass);
+            border-bottom-color: transparent;
+        }
+        .tr-now::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--now-neon);
+            border-radius: 10px;
+            box-shadow: 0 0 14px var(--now-glow), inset 0 0 14px var(--now-glow);
+            pointer-events: none;
+            z-index: 4;
+        }
+        .tr-now .td-time {
+            color: var(--now-neon);
+            font-weight: 900;
+            text-shadow: 0 0 10px var(--now-glow);
+            opacity: 1;
+        }
+        [data-theme="dark"] .tr-now .td-time { opacity: 1; }
+        .tr-now .chip {
+            border-color: var(--now-neon);
+            box-shadow: 0 0 8px var(--now-glow), var(--chip-shadow);
+            opacity: 1;
+        }
+        .now-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            z-index: 20;
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid var(--now-neon);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 0.72rem;
+            line-height: 1.5;
+            color: var(--ink, #e2e8f0);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 0 12px var(--now-glow);
+            pointer-events: none;
+        }
+        .now-badge .nb-time { font-weight: 800; color: var(--now-neon); }
+        .now-badge .nb-slot { color: var(--muted, #94a3b8); }
+        .fab-extra[hidden] { display: none !important; }
+        .fab-extra {
+            position: fixed; right: calc(20px + env(safe-area-inset-right)); bottom: calc(20px + env(safe-area-inset-bottom));
+            z-index: 70; width: 56px; height: 56px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.9rem; font-weight: 800; line-height: 1; color: #fff;
+            background: linear-gradient(135deg, #34d399, #059669);
+            box-shadow: 0 8px 24px rgba(5, 150, 105, 0.5);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .fab-extra::before {
+            content: ''; position: absolute; inset: -4px; border-radius: 50%;
+            background: rgba(5, 150, 105, 0.18); animation: fab-pulse 2s ease-out infinite;
+        }
+        .fab-extra.off { background: linear-gradient(135deg, #fb7185, #e11d48); box-shadow: 0 8px 24px rgba(225, 29, 72, 0.5); }
+        .fab-extra.off::before { background: rgba(225, 29, 72, 0.18); }
+        .fab-extra:hover { transform: translateY(-2px); }
+        .fab-extra:active { transform: scale(0.95); }
+        @keyframes fab-pulse {
+            0% { transform: scale(1); opacity: 0.9; }
+            70% { transform: scale(1.35); opacity: 0; }
+            100% { transform: scale(1.35); opacity: 0; }
+        }
+        .table-wrap thead th { background: var(--tab-soft, transparent); }
+        .table-wrap .td-time { color: var(--tab-accent); }
+        table { width: 100%; border-collapse: collapse; min-width: 560px; }
+        th, td { text-align: center; padding: 8px 10px; vertical-align: top; border-bottom: 1px solid var(--stroke); }
         thead th {
             font-size: 0.72rem; font-weight: 800; text-transform: uppercase;
             letter-spacing: 0.08em; color: var(--muted);
@@ -309,7 +485,8 @@
         .th-s2b { color: var(--s2b); }
         .th-uni { color: var(--uni); }
         .th-bet { color: var(--bet); }
-        .td-time { font-weight: 800; font-size: 0.95rem; white-space: nowrap; min-width: 112px; vertical-align: middle; }
+        .td-time { font-weight: 800; font-size: 0.95rem; white-space: nowrap; min-width: 100px; vertical-align: middle; }
+        .td-section { vertical-align: middle; }
         .td-away { white-space: nowrap; }
         .ring {
             display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
@@ -324,11 +501,85 @@
             transition: stroke-dashoffset 0.4s ease;
         }
         .ring.full .ring-fg { stroke: var(--accent); }
+        .away-box { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+        .cap-ctl { display: inline-flex; gap: 4px; }
+        .cap-btn {
+            width: 20px; height: 20px; padding: 0; line-height: 1; cursor: pointer;
+            border-radius: 50%; border: 1px solid var(--chip-stroke);
+            background: var(--chip-bg); color: var(--text);
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 800;
+        }
+        .cap-btn:hover { border-color: var(--accent); color: var(--accent); }
         tbody tr:last-child td { border-bottom: none; }
         .table-wrap .input-box { margin-top: 0; }
         .table-wrap .full-note { margin-top: 8px; text-align: center; }
         .table-wrap .chip { margin-top: 6px; }
         .table-wrap .chip:first-child { margin-top: 0; }
+
+        /* ---------- mobile: tables become stacked cards ---------- */
+        @media (max-width: 720px) {
+            body { padding: 10px calc(10px + env(safe-area-inset-right)) calc(44px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left)); }
+            .container { max-width: 100%; }
+            header { padding: 14px 14px; margin-bottom: 12px; }
+            h1 { font-size: 1.2rem; }
+            header p { font-size: 0.72rem; }
+
+            .segmented { border-radius: 15px; }
+            .segment { padding: 11px 12px; font-size: 0.92rem; }
+
+            .rules { padding: 12px 14px; font-size: 0.82rem; }
+            .welcome { padding: 18px 14px; margin-bottom: 12px; }
+
+            .tables-grid { display: block; }
+            .table-wrap {
+                padding: 0;
+                overflow: visible;
+                -webkit-overflow-scrolling: auto;
+                margin-bottom: 12px;
+            }
+            .table-wrap .table-title { padding: 12px 12px 0; }
+
+            table, thead, tbody, tr, td { display: block; width: auto; min-width: 0; }
+            table { min-width: 0; border-collapse: separate; border-spacing: 0; }
+            thead { display: none; }
+            tbody { display: block; }
+            tbody tr {
+                padding: 12px;
+                border-bottom: 1px solid var(--stroke);
+            }
+            tbody tr:last-child { border-bottom: none; }
+            th, td { border-bottom: none; padding: 0; vertical-align: middle; text-align: center; }
+
+            .td-section { margin-top: 12px; }
+            .td-section::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 0.62rem; font-weight: 800; text-transform: uppercase;
+                letter-spacing: 0.08em; color: var(--muted);
+                margin-bottom: 6px;
+            }
+            .td-section .chip,
+            .td-section .add-box { margin: 0 auto 6px auto; }
+            .td-time { font-size: 1rem; padding-bottom: 2px; }
+
+            .td-away { margin-top: 12px; }
+            .td-away::before {
+                content: 'Away from chats';
+                display: block;
+                font-size: 0.62rem; font-weight: 800; text-transform: uppercase;
+                letter-spacing: 0.08em; color: var(--muted);
+                margin-bottom: 6px;
+            }
+
+            .add-box { width: 100%; }
+            .add-input { min-width: 0; font-size: 1rem; }
+
+            .login-form input { width: 100%; }
+            .login-form { width: 100%; }
+            .admin-area, .head-actions { width: 100%; }
+            .head-groups { width: 100%; margin-top: 4px; }
+        }
 
         /* ---------- cards (legacy) ---------- */
 
@@ -356,8 +607,10 @@
         .input-box { margin-top: 10px; }
         .add-box {
             position: relative;
-            display: flex; align-items: center; gap: 10px;
-            padding: 6px 6px 6px 8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: fit-content; max-width: 100%;
+            margin: 0 auto;
+            padding: 6px 8px 6px 14px;
             border-radius: 999px;
             background: linear-gradient(135deg, var(--glass-strong), var(--glass));
             border: 1px solid var(--stroke);
@@ -386,29 +639,29 @@
                 0 12px 28px var(--hover-glow);
             transform: translateY(-1px);
         }
-        .add-ico {
-            width: 26px; height: 26px;
-            display: grid; place-items: center;
-            flex-shrink: 0;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--glass-strong), var(--glass));
-            border: 1px solid var(--stroke);
-            color: var(--accent);
-            box-shadow: inset 0 1px 1px var(--add-high), 0 2px 6px var(--chip-shadow);
-        }
-        .add-ico svg { display: block; }
         .add-input {
-            flex: 1; min-width: 0; width: 100%;
+            flex: 1; min-width: 60px; width: 100%;
             border: none; background: transparent;
-            padding: 3px 2px;
-            font-size: 0.95rem; font-weight: 600;
+            padding: 4px 2px;
+            min-height: 22px;
+            font-size: 1rem; font-weight: 600;
             color: var(--ink);
             outline: none;
             text-align: center;
             -webkit-appearance: none;
         }
-        .add-input::placeholder { color: var(--muted); font-weight: 600; opacity: 0.85; }
-        .add-input:focus::placeholder { color: transparent; }
+        .add-ph {
+            position: absolute;
+            inset: 0;
+            display: grid; place-items: center;
+            pointer-events: none;
+            color: var(--muted);
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
+        .add-ph svg { width: 14px; height: 14px; }
+        .add-box:focus-within .add-ph,
+        .add-input:not(:placeholder-shown) ~ .add-ph { opacity: 0; }
         .add-btn {
             width: 28px; height: 28px;
             display: grid; place-items: center;
@@ -464,6 +717,8 @@
     <div class="blob b1"></div>
     <div class="blob b2"></div>
     <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
 
     <div class="container">
         <header class="glass">
@@ -471,31 +726,62 @@
                 <h1>Shift Sign-Up</h1>
                 <p>Add your name to a time slot.</p>
             </div>
+            <nav class="segmented head-groups" id="groupNav" aria-label="Shifts"></nav>
             <div class="head-actions">
                 <button class="btn theme-btn" id="themeBtn" title="Theme"></button>
                 <div class="admin-area" id="adminArea"></div>
             </div>
         </header>
 
-        <nav class="segmented" id="shiftNav" aria-label="Shift"></nav>
+        <nav class="segmented" id="shiftNav" aria-label="Shift" hidden></nav>
 
-        <div class="summarybar glass">
-            <span id="summaryText"></span>
-            <span class="progress"><i id="summaryBar"></i></span>
+        <div class="rules glass">
+            <div class="rules-title"><span class="rules-excl" aria-hidden="true">!</span>Main Rules:</div>
+            <ul class="rules-list">
+                <li class="r-lock"><b class="rk-lock">Filled</b>&#8201;names are managed only by&#8201;the&#8201;<b class="rk-lock">Shift Lead / Shift Senior</b>.</li>
+                <li class="r-green"><b class="rk-green">Extra slots</b> (if needed) can be added by&#8201;the&#8201;<b class="rk-lock">Shift Lead / Shift Senior</b>&#8201;accordingly.</li>
+            </ul>
         </div>
 
-        <p class="caption glass"><strong>Break</strong> and <strong>2nd Line</strong> can each hold only <strong>one</strong> person at a time. Each agent can take only <strong>one</strong> slot per shift. If someone from your group already signed up this hour, the other shift is blocked for you. Filled names are locked and can only be changed by a manager.</p>
+        <section class="welcome glass" id="welcome">
+            <div class="welcome-inner">
+                <div class="welcome-greet"><b id="wGreet"></b></div>
+                <p class="welcome-wish" id="wWish"></p>
+                <div class="welcome-meta">
+                    <span class="wm-day" id="wDay"></span>
+                    <span class="wm-sep" aria-hidden="true">&#8226;</span>
+                    <span class="wm-time" id="wTime"></span>
+                    <span class="wm-sep" aria-hidden="true">&#8226;</span>
+                    <span class="wm-date" id="wDate"></span>
+                </div>
+            </div>
+        </section>
 
         <section id="cards"></section>
     </div>
 
+    <button class="fab-extra" id="extraFab" title="Extra Slots" hidden></button>
     <div class="toast" id="toast"></div>
 
     <script>
+        function loadSavedView() {
+            try {
+                const v = JSON.parse(localStorage.getItem('shiftView') || 'null');
+                if (v && typeof v.group === 'string' && typeof v.shift === 'string') return v;
+            } catch (e) {}
+            return null;
+        }
+        function saveView() {
+            try {
+                localStorage.setItem('shiftView', JSON.stringify({ group: state.group, shift: state.shift }));
+            } catch (e) {}
+        }
+        const savedView = loadSavedView();
         const state = {
             config: null,
             data: null,
-            shift: 'day',
+            group: (savedView && savedView.group) || '',
+            shift: (savedView && savedView.shift) || 'day',
             tab: 'break',
             token: localStorage.getItem('shiftAdminToken') || '',
             adminPanelOpen: false,
@@ -556,6 +842,7 @@
                 if (wasAdmin) {
                     state.adminPanelOpen = true;
                     renderHeader();
+                    updateExtraFab(false);
                     toast('Session expired \u2014 log in again');
                 }
             }
@@ -569,7 +856,7 @@
             t.textContent = msg;
             t.classList.add('show');
             clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 10000);
         }
 
         /* ---------------- header / admin ---------------- */
@@ -621,15 +908,50 @@
             }
         }
 
+        function renderGroups() {
+            renderSegmented('groupNav', state.config.groups.map((g) => ({ key: g.key, label: g.label })), state.group, (k) => {
+                state.group = k;
+                state.editing = null;
+                saveView();
+                renderShifts();
+                renderCards();
+                updateExtraFab(!!state.token);
+            });
+        }
+
         function renderShifts() {
+            const nav = $('shiftNav');
+            if (!state.group) {
+                nav.hidden = true;
+                nav.innerHTML = '';
+                return;
+            }
+            nav.hidden = false;
             renderSegmented('shiftNav', Object.entries(state.config.shifts).map(([k, c]) => ({ key: k, label: c.label })), state.shift, (k) => {
                 state.shift = k;
                 state.editing = null;
+                saveView();
                 renderCards();
+                updateExtraFab(!!state.token);
             });
         }
 
         /* ---------------- cards ---------------- */
+
+        const TAB_HOURS = {
+            line2: { day: [0, 1, 2, 3, 4, 5, 6], night: [2, 3, 4, 5, 6, 7, 8] }
+        };
+        const LINE2_EXTRA = { day: [7, 8], night: [0, 1] };
+
+        function tabHourIndices(tab) {
+            const set = (TAB_HOURS[tab] || {})[state.shift];
+            if (!set) return state.config.shifts[state.shift].times.map((_, i) => i);
+            if (tab !== 'line2') return set;
+            const sh = state.data[state.group] && state.data[state.group][state.shift];
+            const extra = (sh && sh.line2extra) ? (LINE2_EXTRA[state.shift] || []) : [];
+            if (!extra.length) return set;
+            return (state.shift === 'night') ? extra.concat(set) : set.concat(extra);
+        }
 
         function filledCount(row) {
             let n = 0;
@@ -641,16 +963,25 @@
             return n;
         }
 
-        function groupHourTaken(shift, ti, section) {
-            const d = state.data[shift];
-            for (const t of state.config.tabs) {
-                if (d[t.key][ti].slots[section].some((v) => v)) return true;
-            }
-            return false;
+        function awayCap(group, shift, ti) {
+            const d = state.data[group];
+            const sh = d && d[shift];
+            if (sh && sh.away && typeof sh.away[ti] === 'number') return sh.away[ti];
+            return state.config.shifts[shift].away[ti];
         }
 
-        function slotKey(tab, si, section) {
-            return state.shift + '/' + tab + '/' + si + '/' + section;
+        function rowAway(group, shift, ti) {
+            const d = state.data[group];
+            let n = 0;
+            for (const t of state.config.tabs) {
+                if (!tabHourIndices(t.key).includes(ti)) continue;
+                n += filledCount(d[shift][t.key][ti]);
+            }
+            return n;
+        }
+
+        function slotKey(group, shift, tab, si, section) {
+            return group + '/' + shift + '/' + tab + '/' + si + '/' + section;
         }
 
         function firstFreeSlot(row, section, limit) {
@@ -660,23 +991,65 @@
             return 0;
         }
 
-        const ADD_PERSON = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-        const EDIT_PENCIL = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+        const PENCIL_ICO = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>';
+
+        function gmt3Now() {
+            const d = new Date();
+            return new Date(d.getTime() + (d.getTimezoneOffset() + 180) * 60000);
+        }
+
+        function currentTimeIdx(shift) {
+            const cfg = state.config && state.config.shifts[shift];
+            if (!cfg || !cfg.times) return -1;
+            const now = gmt3Now();
+            const t = now.getHours() * 60 + now.getMinutes();
+            for (let i = 0; i < cfg.times.length; i++) {
+                const m = /^(\d{1,2}):(\d{2})\s*-\s*(\d{1,2}):(\d{2})/.exec(cfg.times[i] || '');
+                if (!m) continue;
+                let s = (+m[1]) * 60 + (+m[2]);
+                let e = (+m[3]) * 60 + (+m[4]);
+                if (e <= s) e += 1440;
+                if (t >= s && t < e) return i;
+            }
+            return -1;
+        }
+
+        function nowClockStr() {
+            const d = gmt3Now();
+            return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+        }
+
+        function updateNowRows() {
+            const idx = currentTimeIdx(state.shift);
+            const clock = document.querySelector('.now-badge .nb-time');
+            if (clock) clock.textContent = 'Current Time: ' + nowClockStr() + ' (GMT+3)';
+            const slot = document.querySelector('.now-badge .nb-slot');
+            const cfg = state.config && state.config.shifts[state.shift];
+            if (slot) slot.textContent = idx >= 0 && cfg ? 'Active Slot: ' + cfg.times[idx] : 'Active Slot: —';
+            document.querySelectorAll('#cards .table-wrap tbody tr[data-ti]').forEach((tr) => {
+                if (Number(tr.getAttribute('data-ti')) === idx) tr.classList.add('tr-now');
+                else tr.classList.remove('tr-now');
+            });
+        }
 
         function renderCards() {
             const wrap = $('cards');
+            if (!state.config || !state.data || !state.group) { wrap.innerHTML = ''; return; }
+            const g = state.data[state.group];
             const cfg = state.config.shifts[state.shift];
             const admin = !!state.token;
             const times = cfg.times;
 
-            let totalUsed = 0, totalCap = 0;
             const html = ['<div class="tables-grid">'];
+            const nowIdx = currentTimeIdx(state.shift);
+            const nowCfg = state.config.shifts[state.shift];
+            html.push('<div class="now-badge"><span class="nb-time">Current Time: ' + nowClockStr() + ' (GMT+3)</span><br><span class="nb-slot">Active Slot: ' + (nowIdx >= 0 ? esc(nowCfg.times[nowIdx]) : '—') + '</span></div>');
 
             for (const t of state.config.tabs) {
-                const rows = state.data[state.shift][t.key];
+                const rows = g[state.shift][t.key];
 
-                html.push('<div class="table-wrap glass">');
-                html.push('<div class="table-title">' + esc(t.label) + '</div>');
+                html.push('<div class="table-wrap glass tab-' + t.key + '">');
+                html.push('<div class="table-title"><i class="dot"></i>' + esc(t.label) + '</div>');
                 html.push('<table>');
                 html.push('<thead><tr>' +
                     '<th>Time</th>' +
@@ -687,44 +1060,59 @@
                     '</tr></thead>');
                 html.push('<tbody>');
 
-                for (let ti = 0; ti < times.length; ti++) {
-                    const limit = cfg.away[ti];
+                const hours = tabHourIndices(t.key);
+                const line2ExtraOn = t.key === 'line2' && !!(g[state.shift] && g[state.shift].line2extra);
+                for (let hi = 0; hi < hours.length; hi++) {
+                    const ti = hours[hi];
+                    const limit = awayCap(state.group, state.shift, ti);
                     const row = rows[ti];
                     const used = filledCount(row);
-                    totalUsed += used;
-                    totalCap += limit;
+                    const awayUsed = rowAway(state.group, state.shift, ti);
+                    const cap = awayCap(state.group, state.shift, ti);
+                    const isExtra = line2ExtraOn && LINE2_EXTRA[state.shift].includes(ti);
 
-                    html.push('<tr>');
-                    html.push('<td class="td-time">' + esc(times[ti]) + '</td>');
+                    let hasFree = false;
+                    for (const s of state.config.sections) {
+                        const sectionFree = !row.slots[s.key].some((v) => v);
+                        if (sectionFree && !(cap <= 2 && used > 0) && awayUsed < cap) { hasFree = true; break; }
+                    }
+
+                    html.push('<tr class="' + (hasFree ? 'tr-free' : 'tr-full') + (nowIdx === ti ? ' tr-now' : '') + '" data-ti="' + ti + '">');
+                    html.push('<td class="td-time">' + esc(times[ti]) + (isExtra ? '<span class="extra-tag">Extra Slots</span>' : '') + '</td>');
 
                     for (const s of state.config.sections) {
-                        html.push('<td class="td-section">');
+                        html.push('<td class="td-section" data-label="' + esc(s.label) + '">');
                         for (let si = 0; si < limit; si++) {
                             const name = row.slots[s.key][si];
                             if (!name) continue;
-                            if (state.editing === slotKey(t.key, si, s.key) && admin) {
-                                html.push('<div class="add-box"><span class="add-ico">' + EDIT_PENCIL + '</span><input class="add-input" value="' + esc(name) + '" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" data-mode="edit"><button class="add-btn" type="button" title="Save">+</button></div>');
+                            if (state.editing === slotKey(state.group, state.shift, t.key, si, s.key) && admin) {
+                                html.push('<div class="add-box"><input class="add-input" value="' + esc(name) + '" data-group="' + state.group + '" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" data-mode="edit"><button class="add-btn" type="button" title="Save">&#10003;</button></div>');
                             } else {
-                                html.push('<div class="chip' + (admin ? ' editable' : '') + '" data-key="' + slotKey(t.key, si, s.key) + '">');
-                                if (admin) html.push('<button class="chip-x" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" title="Remove">&#10005;</button>');
+                                html.push('<div class="chip' + (admin ? ' editable' : '') + '" data-key="' + slotKey(state.group, state.shift, t.key, si, s.key) + '">');
+                                if (admin) html.push('<button class="chip-x" data-group="' + state.group + '" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + si + '" title="Remove">&#10005;</button>');
                                 html.push('<span class="name">' + esc(name) + '</span><span class="lock">&#128274;</span>');
                                 html.push('</div>');
                             }
                         }
-                        if (groupHourTaken(state.shift, ti, s.key)) {
-                            html.push('<div class="full-note">&#128274; Taken &#8212; no more agents from this group</div>');
-                        } else if (used === 0) {
-                            html.push('<div class="add-box"><span class="add-ico">' + ADD_PERSON + '</span><input class="add-input" placeholder="✎ ⋯" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + firstFreeSlot(row, s.key, limit) + '" data-mode="new"><button class="add-btn" type="button" title="Sign up">+</button></div>');
+                        const sectionFree = !row.slots[s.key].some((v) => v);
+                        if (sectionFree && !(cap <= 2 && used > 0) && awayUsed < cap) {
+                            html.push('<div class="add-box"><input class="add-input" placeholder="" data-group="' + state.group + '" data-shift="' + state.shift + '" data-tab="' + t.key + '" data-ti="' + ti + '" data-section="' + s.key + '" data-si="' + firstFreeSlot(row, s.key, limit) + '" data-mode="new"><span class="add-ph">' + PENCIL_ICO + '</span><button class="add-btn" type="button" title="Add name">&#10003;</button></div>');
                         }
                         html.push('</td>');
                     }
 
                     const R = 2 * Math.PI * 16;
-                    const circ = R * (1 - (used / limit));
-                    html.push('<td class="td-away"><span class="ring' + (used > 0 ? ' full' : '') + '"><svg viewBox="0 0 40 40">' +
+                    const frac = Math.min(awayUsed / Math.max(cap, 1), 1);
+                    const circ = R * (1 - frac);
+                    html.push('<td class="td-away"><span class="away-box"><span class="ring' + (awayUsed > 0 ? ' full' : '') + '"><svg viewBox="0 0 40 40">' +
                         '<circle class="ring-bg" cx="20" cy="20" r="16"></circle>' +
                         '<circle class="ring-fg" cx="20" cy="20" r="16" style="stroke-dasharray:' + R.toFixed(2) + ';stroke-dashoffset:' + circ.toFixed(2) + '"></circle>' +
-                        '</svg><b>' + used + '&thinsp;/&thinsp;' + limit + '</b></span></td>');
+                        '</svg><b>' + awayUsed + '&thinsp;/&thinsp;' + cap + '</b></span>' +
+                        (admin ? '<span class="cap-ctl">' +
+                            '<button class="cap-btn" data-group="' + state.group + '" data-shift="' + state.shift + '" data-capti="' + ti + '" data-capdelta="-1" title="Decrease Away capacity">&#8722;</button>' +
+                            '<button class="cap-btn" data-group="' + state.group + '" data-shift="' + state.shift + '" data-capti="' + ti + '" data-capdelta="1" title="Increase Away capacity">+</button>' +
+                            '</span>' : '') +
+                        '</span></td>');
                     html.push('</tr>');
                 }
 
@@ -735,19 +1123,42 @@
 
             html.push('</div>');
 
+            const focusCtx = (() => {
+                const a = document.activeElement;
+                if (!a || a.tagName !== 'INPUT' || !a.classList || !a.classList.contains('add-input')) return null;
+                return { group: a.dataset.group, shift: a.dataset.shift, tab: a.dataset.tab, ti: a.dataset.ti, section: a.dataset.section, si: a.dataset.si, mode: a.dataset.mode, value: a.value, start: a.selectionStart, end: a.selectionEnd };
+            })();
+
+            const wrapBoxes = [];
+            wrap.querySelectorAll('.table-wrap').forEach((el) => wrapBoxes.push(el.scrollLeft));
+
             wrap.innerHTML = html.join('');
 
-            const usedPct = totalCap ? Math.round((totalUsed / totalCap) * 100) : 0;
-            $('summaryText').textContent = state.config.shifts[state.shift].label + ' \u2014 ' + totalUsed + ' of ' + totalCap + ' filled';
-            $('summaryBar').style.width = usedPct + '%';
+            wrap.querySelectorAll('.table-wrap').forEach((el, i) => { if (wrapBoxes[i]) el.scrollLeft = wrapBoxes[i]; });
 
             bindSlotEvents();
+            updateExtraFab(admin);
+            wrap.querySelectorAll('.cap-btn').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    setCapacity(btn.dataset.group, btn.dataset.shift, Number(btn.dataset.capti), Number(btn.dataset.capdelta));
+                });
+            });
+
+            if (focusCtx) {
+                const ed = document.querySelector('#cards input.add-input[data-group="' + focusCtx.group + '"][data-shift="' + focusCtx.shift + '"][data-tab="' + focusCtx.tab + '"][data-ti="' + focusCtx.ti + '"][data-mode="' + focusCtx.mode + '"][data-section="' + focusCtx.section + '"][data-si="' + focusCtx.si + '"]');
+                if (ed && ed !== document.activeElement) {
+                    if (focusCtx.mode === 'new' && focusCtx.value !== null) ed.value = focusCtx.value;
+                    ed.focus();
+                    delete ed.dataset.committed;
+                    try { ed.setSelectionRange(focusCtx.start, focusCtx.end); } catch (e) { if (ed.value) ed.select(); }
+                }
+            }
         }
 
         function bindSlotEvents() {
             inputs().forEach((inp) => {
-                inp.addEventListener('focus', () => { inp.dataset.focused = '1'; });
-                inp.addEventListener('blur', (e) => handleCommit(e, false));
+                inp.addEventListener('focus', () => { inp.dataset.focused = '1'; setBlobsRunning(false); });
+                inp.addEventListener('blur', (e) => { setBlobsRunning(true); handleCommit(e, false); });
                 inp.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
@@ -770,7 +1181,7 @@
             document.querySelectorAll('.chip-x').forEach((btn) => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    clearOneSlot(btn.dataset.shift, btn.dataset.tab, Number(btn.dataset.ti), btn.dataset.section, Number(btn.dataset.si));
+                    clearOneSlot(btn.dataset.group, btn.dataset.shift, btn.dataset.tab, Number(btn.dataset.ti), btn.dataset.section, Number(btn.dataset.si));
                 });
             });
 
@@ -795,7 +1206,9 @@
             inp.dataset.committed = inp.value;
             const v = inp.value.trim();
             const mode = inp.dataset.mode;
+            if (!v && mode === 'new') return;
             const body = {
+                group: inp.dataset.group,
                 shift: inp.dataset.shift,
                 tab: inp.dataset.tab,
                 timeIdx: Number(inp.dataset.ti),
@@ -815,9 +1228,9 @@
             await refresh(false);
         }
 
-        async function clearOneSlot(shift, tab, ti, section, si) {
+        async function clearOneSlot(group, shift, tab, ti, section, si) {
             try {
-                await api('/api/clearSlot', { method: 'POST', body: { shift, tab, timeIdx: ti, section, slotIdx: si } });
+                await api('/api/clearSlot', { method: 'POST', body: { group, shift, tab, timeIdx: ti, section, slotIdx: si } });
                 state.editing = null;
                 await refresh(false);
             } catch (err) {
@@ -825,10 +1238,51 @@
             }
         }
 
-        async function clearAll() {
-            if (!confirm('Clear ALL names from every schedule (Day, Night, Monday)? This cannot be undone.')) return;
+        async function setCapacity(group, shift, ti, delta) {
             try {
-                await api('/api/clearAll', { method: 'POST' });
+                await api('/api/capacity', { method: 'POST', body: { group, shift, timeIdx: ti, delta } });
+                await refresh(false);
+            } catch (err) {
+                toast(err.message);
+                if (/Admin|Token/i.test(err.message)) logout();
+            }
+        }
+
+        function updateExtraFab(admin) {
+            const fab = $('extraFab');
+            if (!fab) return;
+            if (admin && state.group && state.shift && (state.shift === 'day' || state.shift === 'night')) {
+                const sh = state.data[state.group] && state.data[state.group][state.shift];
+                const on = !!(sh && sh.line2extra);
+                fab.hidden = false;
+                fab.textContent = on ? '\u2212' : '+';
+                fab.classList.toggle('off', on);
+                const msg = on ? 'Remove extra slots' : 'Add extra slots';
+                fab.title = msg;
+                fab.setAttribute('aria-label', msg);
+            } else {
+                fab.hidden = true;
+            }
+        }
+
+        async function toggleLine2Extra(group, shift) {
+            try {
+                const res = await api('/api/line2extra', { method: 'POST', body: { group, shift } });
+                await refresh(false);
+                toast(res.line2extra ? 'Extra Slots added' : 'Extra Slots removed');
+            } catch (err) {
+                toast(err.message);
+                if (/Admin|Token/i.test(err.message)) logout();
+                await refresh(false);
+            }
+        }
+
+        async function clearAll() {
+            const label = (state.config.groups.find((g) => g.key === state.group) || {}).label || state.group;
+            const shiftLabel = (state.config.shifts[state.shift] || {}).label || state.shift;
+            if (!confirm('Clear all names from ' + label + ' \u2014 ' + shiftLabel + '? This cannot be undone.')) return;
+            try {
+                await api('/api/clearAll', { method: 'POST', body: { group: state.group, shift: state.shift } });
                 state.editing = null;
                 await refresh(false);
                 toast('All slots cleared');
@@ -861,29 +1315,132 @@
 
         /* ---------------- data + polling ---------------- */
 
+        let lastRaw = '';
+        let lastTouch = 0;
+        let pendingRender = false;
+        let dataSeq = 0;
+        let appliedSeq = 0;
+
+        function markTouch() { lastTouch = Date.now(); }
+        ['touchstart', 'touchmove', 'touchend', 'wheel', 'scroll'].forEach((ev) =>
+            window.addEventListener(ev, markTouch, { passive: true })
+        );
+
+        function inputFocused() {
+            const a = document.activeElement;
+            return !!a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA');
+        }
+
+        function flushPending() {
+            if (!pendingRender) return;
+            if (inputFocused()) { setTimeout(flushPending, 800); return; }
+            pendingRender = false;
+            render();
+        }
+        window.addEventListener('touchend', () => setTimeout(flushPending, 500), { passive: true });
+        window.addEventListener('wheel', () => setTimeout(flushPending, 300), { passive: true });
+
         async function refresh(skipFocused) {
-            if (skipFocused) {
-                const act = document.activeElement;
-                if (act && (act.tagName === 'INPUT' || act.tagName === 'TEXTAREA')) return;
-            }
+            if (skipFocused && inputFocused()) return;
+            const seq = ++dataSeq;
             try {
+                if (state.token) api('/api/me').catch(() => {});
                 const res = await api('/api/data');
-                if (res.config) state.config = res.config;
+                if (seq < appliedSeq) return;
+                appliedSeq = seq;
+                if (seq !== dataSeq) return;
+                let configChanged = false;
+                if (res.config) {
+                    configChanged = !state.config || JSON.stringify(res.config) !== JSON.stringify(state.config);
+                    state.config = res.config;
+                    const groups = res.config.groups || [];
+                    if (!groups.some((g) => g.key === state.group)) state.group = groups.length ? groups[0].key : '';
+                    if (!res.config.shifts[state.shift]) state.shift = 'day';
+                }
+                const raw = JSON.stringify(res.data);
+                if (raw === lastRaw && !configChanged) return;
+                lastRaw = raw;
+                const first = !state.data;
                 state.data = res.data;
-                render();
+                if (!state.group && state.config.groups && state.config.groups.length) state.group = state.config.groups[0].key;
+                if (inputFocused()) { pendingRender = true; setTimeout(flushPending, 600); return; }
+                if (Date.now() - lastTouch < 1200) { pendingRender = true; return; }
+                if (first || configChanged) render();
+                else renderCards();
             } catch (e) {}
         }
 
         function render() {
             if (!state.config || !state.data) return;
+            if (!state.group && state.config.groups && state.config.groups.length) {
+                state.group = state.config.groups[0].key;
+            }
             renderHeader();
+            renderGroups();
             renderShifts();
             renderCards();
+            renderWelcome();
+        }
+
+        /* ---------------- welcome / clock ---------------- */
+
+        let wDayLabel = '';
+        let wDateLabel = '';
+        let wTimeLabel = '';
+
+        function pad2(n) { return (n < 10 ? '0' : '') + n; }
+
+        function renderWelcome() {
+            const now = new Date();
+            const h = now.getHours();
+
+            const time = pad2(h) + ':' + pad2(now.getMinutes()) + ':' + pad2(now.getSeconds());
+            if (time !== wTimeLabel) {
+                wTimeLabel = time;
+                const t = $('wTime');
+                if (t) t.textContent = time;
+            }
+
+            const dateLabel = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            if (dateLabel !== wDateLabel) {
+                wDateLabel = dateLabel;
+                const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+                wDayLabel = day;
+                const d = $('wDay');
+                if (d) d.textContent = day;
+                const dt = $('wDate');
+                if (dt) dt.textContent = dateLabel;
+            }
+
+            const greet = (h >= 5 && h < 12) ? 'Good morning'
+                        : (h >= 12 && h < 17) ? 'Good afternoon'
+                        : (h >= 17 && h < 21) ? 'Good evening'
+                        : 'Good night';
+
+            const wGreet = $('wGreet');
+            if (wGreet && wGreet.dataset.g !== greet) { wGreet.textContent = greet + '!'; wGreet.dataset.g = greet; }
+
+            const wish = now.getDay() === 1 ? 'Have a great Monday Shift!' : 'Have a great shift!';
+            const wWish = $('wWish');
+            if (wWish && wWish.dataset.w !== wish) { wWish.textContent = wish; wWish.dataset.w = wish; }
+        }
+
+        let welcomeClockTimer = null;
+        function startWelcomeClock() {
+            stopWelcomeClock();
+            welcomeClockTimer = setInterval(renderWelcome, 1000);
+        }
+        function stopWelcomeClock() {
+            if (welcomeClockTimer) { clearInterval(welcomeClockTimer); welcomeClockTimer = null; }
         }
 
         (async function init() {
             $('themeBtn').addEventListener('click', cycleTheme);
+            const extraFab = $('extraFab');
+            if (extraFab) extraFab.addEventListener('click', () => toggleLine2Extra(state.group, state.shift));
             applyTheme();
+            renderWelcome();
+            startWelcomeClock();
             if (darkQuery) {
                 darkQuery.addEventListener('change', () => { if (themeMode === 'auto') applyTheme(); });
             }
@@ -895,23 +1452,118 @@
             function stopPolling() {
                 if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
             }
+            const nowTimer = setInterval(() => updateNowRows(), 20000);
             document.addEventListener('visibilitychange', () => {
                 if (document.hidden) {
                     stopPolling();
+                    setBlobsRunning(false);
                 } else {
                     startPolling();
-                    refresh(false);
+                    refresh(true);
+                    startBlobs();
                 }
             });
-            window.addEventListener('focus', () => refresh(false));
-            window.addEventListener('pageshow', () => refresh(false));
+            window.addEventListener('focus', () => refresh(true));
+            window.addEventListener('pageshow', () => refresh(true));
             await refresh(false);
             if (state.token) {
                 api('/api/me').catch(() => {});
             }
             await new Promise((r) => setTimeout(r, 100));
             startPolling();
+            startBlobs();
         })();
+
+        const blobEls = [...document.querySelectorAll('.blob')];
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        let blobState = [];
+        let blobRAF = 0;
+        let blobLastT = 0;
+        let blobPrev = 0;
+        let blobPauseTimer = null;
+        let blobRunning = false;
+
+        function initBlobs() {
+            const w = document.documentElement.clientWidth;
+            const h = document.documentElement.clientHeight;
+            blobState = blobEls.map((el) => {
+                const r = el.getBoundingClientRect();
+                const size = Math.max(r.width, r.height) || 320;
+                const x = Math.max((w - size) * (0.15 + Math.random() * 0.7), 0);
+                const y = Math.max((h - size) * (0.15 + Math.random() * 0.7), 0);
+                const a = Math.random() * Math.PI * 2;
+                const sp = 56 + Math.random() * 128;
+                return { el, ox: r.left, oy: r.top, size, x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp };
+            });
+            blobLastT = 0;
+        }
+
+        function setBlobsRunning(on) {
+            if (reducedMotion.matches) { blobRunning = false; return; }
+            if (on && (document.hidden || inputFocused())) return;
+            blobRunning = on;
+            cancelAnimationFrame(blobRAF);
+            if (on && blobState.length) {
+                blobRAF = requestAnimationFrame(blobStep);
+            }
+        }
+
+        function holdBlobs() {
+            clearTimeout(blobPauseTimer);
+            setBlobsRunning(false);
+            blobPauseTimer = setTimeout(() => setBlobsRunning(true), 350);
+        }
+
+        function blobStep(ts) {
+            if (!blobRunning) return;
+            if (ts - blobPrev < 33) { blobRAF = requestAnimationFrame(blobStep); return; }
+            blobPrev = ts;
+            if (!blobLastT) blobLastT = ts;
+            const dt = Math.min((ts - blobLastT) / 1000, 0.05);
+            blobLastT = ts;
+            const w = document.documentElement.clientWidth;
+            const h = document.documentElement.clientHeight;
+            for (const b of blobState) {
+                b.x += b.vx * dt;
+                b.y += b.vy * dt;
+                if (b.x < 0) {
+                    b.x = 0;
+                    if (b.vx < 0) { b.vx = -b.vx; if (b.vx < 30) b.vx = 30; }
+                } else if (b.x + b.size > w) {
+                    b.x = Math.max(w - b.size, 0);
+                    if (b.vx > 0) { b.vx = -b.vx; if (-b.vx < 30) b.vx = -30; }
+                }
+                if (b.y < 0) {
+                    b.y = 0;
+                    if (b.vy < 0) { b.vy = -b.vy; if (b.vy < 30) b.vy = 30; }
+                } else if (b.y + b.size > h) {
+                    b.y = Math.max(h - b.size, 0);
+                    if (b.vy > 0) { b.vy = -b.vy; if (-b.vy < 30) b.vy = -30; }
+                }
+                if (!Number.isFinite(b.vx) || !Number.isFinite(b.vy)) { b.vx = 32; b.vy = 32; }
+                b.el.style.transform = 'translate(' + Math.round(b.x - b.ox) + 'px,' + Math.round(b.y - b.oy) + 'px)';
+            }
+            if (blobRunning) blobRAF = requestAnimationFrame(blobStep);
+        }
+
+        function startBlobs() {
+            cancelAnimationFrame(blobRAF);
+            initBlobs();
+            blobRunning = false;
+            if (reducedMotion.matches) return;
+            setBlobsRunning(true);
+        }
+
+        window.addEventListener('resize', () => {
+            const w = document.documentElement.clientWidth;
+            const h = document.documentElement.clientHeight;
+            for (const b of blobState) {
+                b.x = Math.min(Math.max(b.x, 0), Math.max(w - b.size, 0));
+                b.y = Math.min(Math.max(b.y, 0), Math.max(h - b.size, 0));
+            }
+        });
+
+        window.addEventListener('scroll', holdBlobs, { passive: true });
     </script>
 </body>
 </html>
