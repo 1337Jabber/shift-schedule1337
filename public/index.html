@@ -138,6 +138,7 @@
             opacity: 0.85;
             z-index: 0;
             pointer-events: none;
+            will-change: transform;
         }
         .blob.b1 { width: 640px; height: 640px; background: radial-gradient(closest-side, var(--blob-1), transparent 74%); top: -200px; right: -140px; }
         .blob.b2 { width: 560px; height: 560px; background: radial-gradient(closest-side, var(--blob-2), transparent 72%); bottom: 8%; left: -180px; }
@@ -157,8 +158,8 @@
         @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
             .glass {
                 background: var(--glass);
-                -webkit-backdrop-filter: blur(24px) saturate(180%);
-                backdrop-filter: blur(24px) saturate(180%);
+                -webkit-backdrop-filter: blur(10px) saturate(140%);
+                backdrop-filter: blur(10px) saturate(140%);
             }
         }
 
@@ -207,8 +208,6 @@
             font-weight: 700;
             cursor: pointer;
             transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s;
-            -webkit-backdrop-filter: blur(16px);
-            backdrop-filter: blur(16px);
         }
         .btn:active { transform: scale(0.97); }
         .btn:hover { box-shadow: 0 4px 16px var(--hover-glow); }
@@ -250,8 +249,6 @@
             border-radius: 18px;
             overflow-x: auto;
             scrollbar-width: none;
-            -webkit-backdrop-filter: blur(16px);
-            backdrop-filter: blur(16px);
             box-shadow: inset 0 1px 3px rgba(80, 80, 160, 0.08);
             transition: background 0.3s ease, border-color 0.3s ease;
         }
@@ -358,8 +355,8 @@
             .blob.b4 { width: 320px; height: 320px; }
             .blob.b5 { width: 300px; height: 300px; }
             .glass {
-                -webkit-backdrop-filter: blur(14px) saturate(160%);
-                backdrop-filter: blur(14px) saturate(160%);
+                -webkit-backdrop-filter: blur(8px) saturate(140%);
+                backdrop-filter: blur(8px) saturate(140%);
             }
         }
         .table-wrap {
@@ -370,8 +367,8 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
             background: var(--table-glass);
-            -webkit-backdrop-filter: blur(20px) saturate(160%);
-            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
         }
         .table-title {
             font-size: 1rem; font-weight: 800; letter-spacing: -0.01em;
@@ -444,8 +441,6 @@
             font-size: 0.72rem;
             line-height: 1.5;
             color: var(--ink, #e2e8f0);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             box-shadow: 0 0 12px var(--now-glow);
             pointer-events: none;
         }
@@ -614,8 +609,6 @@
             border-radius: 999px;
             background: linear-gradient(135deg, var(--glass-strong), var(--glass));
             border: 1px solid var(--stroke);
-            -webkit-backdrop-filter: blur(22px) saturate(160%);
-            backdrop-filter: blur(22px) saturate(160%);
             box-shadow:
                 inset 0 1px 1px var(--add-high),
                 inset 0 -12px 24px var(--add-high-in),
